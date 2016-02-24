@@ -14,9 +14,10 @@
         tools:context="com.github.takahirom.zerobrowser.MainActivity"
         tools:showIn="@layout/app_bar_main">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello World!"/>
+        <WebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
     </RelativeLayout>
 </layout>
