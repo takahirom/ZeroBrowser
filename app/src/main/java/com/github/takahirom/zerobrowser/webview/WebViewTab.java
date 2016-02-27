@@ -60,7 +60,7 @@ import java.util.regex.Pattern;
 
 public class WebViewTab {
 
-    private final WebView webView;
+    private WebView webView;
 
     public WebViewTab(WebView webView) {
         this.webView = webView;
@@ -710,13 +710,13 @@ public class WebViewTab {
 
         @Override
         public void onCloseWindow(WebView window) {
-            if (mParent != null) {
-                // JavaScript can only close popup window.
-                if (mInForeground) {
-//                    mWebViewController.switchToTab(mParent);
-                }
-
-            }
+//            if (mParent != null) {
+//                // JavaScript can only close popup window.
+//                if (mInForeground) {
+////                    mWebViewController.switchToTab(mParent);
+//                }
+//
+//            }
         }
 
         @Override
@@ -968,9 +968,6 @@ public class WebViewTab {
                 R.dimen.tab_thumbnail_height);
         updateShouldCaptureThumbnails();
         restoreState(state);
-        if (getId() == -1) {
-            mId = TabControl.getNextId();
-        }
         setWebView(w);
         mHandler = new Handler() {
             @Override
@@ -987,40 +984,35 @@ public class WebViewTab {
     public boolean shouldUpdateThumbnail() {
         return mUpdateThumbnail;
     }
-
-    /**
-     * This is used to get a new ID when the tab has been preloaded, before it is displayed and
-     * added to TabControl. Preloaded tabs can be created before restoreInstanceState, leading
-     * to overlapping IDs between the preloaded and restored tabs.
-     */
-    public void refreshIdAfterPreload() {
-        mId = TabControl.getNextId();
-    }
-
-    public void updateShouldCaptureThumbnails() {
-        if (mWebViewController.shouldCaptureThumbnails()) {
-            synchronized (Tab.this) {
-                if (mCapture == null) {
-                    mCapture = Bitmap.createBitmap(mCaptureWidth, mCaptureHeight,
-                            Bitmap.Config.RGB_565);
-                    mCapture.eraseColor(Color.WHITE);
-                    if (mInForeground) {
-                        postCapture();
-                    }
-                }
-            }
-        } else {
-            synchronized (Tab.this) {
-                mCapture = null;
-                deleteThumbnail();
-            }
-        }
-    }
-
-    public void setController(WebViewController ctl) {
-//        mWebViewController = ctl;
-        updateShouldCaptureThumbnails();
-    }
+//
+//    /**
+//     * This is used to get a new ID when the tab has been preloaded, before it is displayed and
+//     * added to TabControl. Preloaded tabs can be created before restoreInstanceState, leading
+//     * to overlapping IDs between the preloaded and restored tabs.
+//     */
+//    public void refreshIdAfterPreload() {
+//        mId = TabControl.getNextId();
+//    }
+//
+//    public void updateShouldCaptureThumbnails() {
+//        if (mWebViewController.shouldCaptureThumbnails()) {
+//            synchronized (Tab.this) {
+//                if (mCapture == null) {
+//                    mCapture = Bitmap.createBitmap(mCaptureWidth, mCaptureHeight,
+//                            Bitmap.Config.RGB_565);
+//                    mCapture.eraseColor(Color.WHITE);
+//                    if (mInForeground) {
+//                        postCapture();
+//                    }
+//                }
+//            }
+//        } else {
+//            synchronized (Tab.this) {
+//                mCapture = null;
+//                deleteThumbnail();
+//            }
+//        }
+//    }
 
     public long getId() {
         return mId;
@@ -1045,9 +1037,9 @@ public class WebViewTab {
 //            mGeolocationPermissionsPrompt.hide();
 //        }
 
-        if (mPermissionsPrompt != null) {
-            mPermissionsPrompt.hide();
-        }
+//        if (mPermissionsPrompt != null) {
+//            mPermissionsPrompt.hide();
+//        }
 
 //        mWebViewController.onSetWebView(this, w);
 
@@ -1069,7 +1061,7 @@ public class WebViewTab {
             // or a non-active window. This can happen when going to a site that
             // does a redirect after a period of time. The user could have
             // switched to another tab while waiting for the download to start.
-            webView.setDownloadListener(mDownloadListener);
+//            webView.setDownloadListener(mDownloadListener);
 //            TabControl tc = mWebViewController.getTabControl();
             if (tc != null && tc.getOnThumbnailUpdatedListener() != null) {
                 webView.setPictureListener(this);
@@ -1516,7 +1508,8 @@ public class WebViewTab {
 
     protected void capture() {
         if (webView == null || mCapture == null) return;
-        if (webView.getContentWidth() <= 0 || webView.getContentHeight() <= 0) {
+        // https://code.google.com/p/android/issues/detail?id=202016&sort=-opened&colspec=ID%20Status%20Priority%20Owner%20Summary%20Stars%20Reporter%20Opened
+        if (/*webView.getContentWidth() <= 0 || */webView.getContentHeight() <= 0) {
             return;
         }
         Canvas c = new Canvas(mCapture);
@@ -1583,54 +1576,48 @@ public class WebViewTab {
         }
     }
 
-    /**
-     * Causes the tab back/forward stack to be cleared once, if the given URL is the next URL
-     * to be added to the stack.
-     *
-     * This is used to ensure that preloaded URLs that are not subsequently seen by the user do
-     * not appear in the back stack.
-     */
-    public void clearBackStackWhenItemAdded(Pattern urlPattern) {
-        mClearHistoryUrlPattern = urlPattern;
-    }
-
-    protected void persistThumbnail() {
-        DataController.getInstance(mContext).saveThumbnail(this);
-    }
-
-    protected void deleteThumbnail() {
-        DataController.getInstance(mContext).deleteThumbnail(this);
-    }
-
-    void updateCaptureFromBlob(byte[] blob) {
-        synchronized (Tab.this) {
-            if (mCapture == null) {
-                return;
-            }
-            ByteBuffer buffer = ByteBuffer.wrap(blob);
-            try {
-                mCapture.copyPixelsFromBuffer(buffer);
-            } catch (RuntimeException rex) {
-                Log.e(LOGTAG, "Load capture has mismatched sizes; buffer: "
-                        + buffer.capacity() + " blob: " + blob.length
-                        + "capture: " + mCapture.getByteCount());
-                throw rex;
-            }
-        }
-    }
+//    /**
+//     * Causes the tab back/forward stack to be cleared once, if the given URL is the next URL
+//     * to be added to the stack.
+//     *
+//     * This is used to ensure that preloaded URLs that are not subsequently seen by the user do
+//     * not appear in the back stack.
+//     */
+//    public void clearBackStackWhenItemAdded(Pattern urlPattern) {
+//        mClearHistoryUrlPattern = urlPattern;
+//    }
+//
+//    protected void persistThumbnail() {
+//        DataController.getInstance(mContext).saveThumbnail(this);
+//    }
+//
+//    protected void deleteThumbnail() {
+//        DataController.getInstance(mContext).deleteThumbnail(this);
+//    }
+//
+//    void updateCaptureFromBlob(byte[] blob) {
+//        synchronized (Tab.this) {
+//            if (mCapture == null) {
+//                return;
+//            }
+//            ByteBuffer buffer = ByteBuffer.wrap(blob);
+//            try {
+//                mCapture.copyPixelsFromBuffer(buffer);
+//            } catch (RuntimeException rex) {
+//                Log.e(LOGTAG, "Load capture has mismatched sizes; buffer: "
+//                        + buffer.capacity() + " blob: " + blob.length
+//                        + "capture: " + mCapture.getByteCount());
+//                throw rex;
+//            }
+//        }
+//    }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(100);
         builder.append(mId);
         builder.append(") has parent: ");
-        if (getParent() != null) {
-            builder.append("true[");
-            builder.append(getParent().getId());
-            builder.append("]");
-        } else {
-            builder.append("false");
-        }
+        builder.append("false");
         builder.append(", incog: ");
         builder.append(isPrivateBrowsingEnabled());
         if (!isPrivateBrowsingEnabled()) {
@@ -1658,7 +1645,5 @@ public class WebViewTab {
         CookieManager cookieManager = CookieManager.getInstance();
         if (webView != null)
             cookieManager.setAcceptThirdPartyCookies(webView, accept);
-        if (mSubView != null)
-            cookieManager.setAcceptThirdPartyCookies(mSubView, accept);
     }
 }
