@@ -62,8 +62,25 @@ public class WebViewTab {
 
     private WebView webView;
 
-    public WebViewTab(WebView webView) {
+    public WebViewTab(WebView webView, Bundle state) {
         this.webView = webView;
+        mCaptureWidth = mContext.getResources().getDimensionPixelSize(
+                R.dimen.tab_thumbnail_width);
+        mCaptureHeight = mContext.getResources().getDimensionPixelSize(
+                R.dimen.tab_thumbnail_height);
+//        updateShouldCaptureThumbnails();
+        restoreState(state);
+        setWebView(webView);
+        mHandler = new Handler() {
+            @Override
+            public void handleMessage(Message m) {
+                switch (m.what) {
+                    case MSG_CAPTURE:
+                        capture();
+                        break;
+                }
+            }
+        };
     }
 
     public void init() {
@@ -354,7 +371,7 @@ public class WebViewTab {
 //                return mWebViewController.shouldOverrideUrlLoading(Tab.this,
 //                        view, url);
 //            } else {
-                return false;
+            return false;
 //            }
         }
 
@@ -582,16 +599,13 @@ public class WebViewTab {
             if (!mInForeground) {
                 return;
             }
-            if (!mWebViewController.onUnhandledKeyEvent(event)) {
-                super.onUnhandledKeyEvent(view, event);
-            }
         }
 
         @Override
         public void onReceivedLoginRequest(WebView view, String realm,
                                            String account, String args) {
-            new DeviceAccountLogin(mWebViewController.getActivity(), view, Tab.this, mWebViewController)
-                    .handleLogin(realm, account, args);
+//            new DeviceAccountLogin(mWebViewController.getActivity(), view, Tab.this, mWebViewController)
+//                    .handleLogin(realm, account, args);
         }
 
     };
@@ -628,7 +642,7 @@ public class WebViewTab {
 //            if (dialog) {
 //                createSubWindow();
 //                mWebViewController.attachSubWindow(Tab.this);
-                transport.setWebView(mSubView);
+            transport.setWebView(mSubView);
 //            } else {
 //                final Tab newTab = mWebViewController.openTab(null,
 //                        Tab.this, true, true);
@@ -957,30 +971,6 @@ public class WebViewTab {
 
     };
 
-
-    Tab(WebView w, Bundle state) {
-
-
-
-        mCaptureWidth = mContext.getResources().getDimensionPixelSize(
-                R.dimen.tab_thumbnail_width);
-        mCaptureHeight = mContext.getResources().getDimensionPixelSize(
-                R.dimen.tab_thumbnail_height);
-        updateShouldCaptureThumbnails();
-        restoreState(state);
-        setWebView(w);
-        mHandler = new Handler() {
-            @Override
-            public void handleMessage(Message m) {
-                switch (m.what) {
-                    case MSG_CAPTURE:
-                        capture();
-                        break;
-                }
-            }
-        };
-    }
-
     public boolean shouldUpdateThumbnail() {
         return mUpdateThumbnail;
     }
@@ -1092,30 +1082,11 @@ public class WebViewTab {
         }
     }
 
-    /**
-     * When a Tab is created through the content of another Tab, then we
-     * associate the Tabs.
-     * @param child the Tab that was created from this Tab
-     */
-    void addChildTab(Tab child) {
-        if (mChildren == null) {
-            mChildren = new Vector<Tab>();
-        }
-        mChildren.add(child);
-        child.setParent(this);
-    }
-
-    Vector<Tab> getChildren() {
-        return mChildren;
-    }
 
     void resume() {
         if (webView != null) {
             setupHwAcceleration(webView);
             webView.onResume();
-            if (mSubView != null) {
-                mSubView.onResume();
-            }
         }
     }
 
@@ -1132,9 +1103,6 @@ public class WebViewTab {
     void pause() {
         if (webView != null) {
             webView.onPause();
-            if (mSubView != null) {
-                mSubView.onPause();
-            }
         }
     }
 
@@ -1145,10 +1113,10 @@ public class WebViewTab {
         mInForeground = true;
         resume();
 //        Activity activity = mWebViewController.getActivity();
-        webView.setOnCreateContextMenuListener(activity);
-        if (mSubView != null) {
-            mSubView.setOnCreateContextMenuListener(activity);
-        }
+        webView.setOnCreateContextMenuListener(((Activity) webView.getContentHeight()));
+//        if (mSubView != null) {
+//            mSubView.setOnCreateContextMenuListener(activity);
+//        }
         // Show the pending error dialog if the queue is not empty
         if (mQueuedErrors != null && mQueuedErrors.size() >  0) {
             showError(mQueuedErrors.getFirst());
@@ -1164,9 +1132,9 @@ public class WebViewTab {
         mInForeground = false;
         pause();
         webView.setOnCreateContextMenuListener(null);
-        if (mSubView != null) {
-            mSubView.setOnCreateContextMenuListener(null);
-        }
+//        if (mSubView != null) {
+//            mSubView.setOnCreateContextMenuListener(null);
+//        }
     }
 
     boolean inForeground() {
@@ -1179,9 +1147,9 @@ public class WebViewTab {
      * @return The top window of this tab.
      */
     WebView getTopWindow() {
-        if (mSubView != null) {
-            return mSubView;
-        }
+//        if (mSubView != null) {
+//            return mSubView;
+//        }
         return webView;
     }
 
