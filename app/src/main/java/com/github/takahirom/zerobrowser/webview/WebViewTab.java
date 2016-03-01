@@ -58,7 +58,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
-public class WebViewTab {
+public class WebViewTab implements WebView.PictureListener {
 
     private WebView webView;
 
@@ -350,7 +350,6 @@ public class WebViewTab {
             // finally update the UI in the activity if it is in the foreground
 //            mWebViewController.onPageStarted(Tab.this, view, favicon);
 
-            updateBookmarkedStatus();
         }
 
         @Override
@@ -642,7 +641,7 @@ public class WebViewTab {
 //            if (dialog) {
 //                createSubWindow();
 //                mWebViewController.attachSubWindow(Tab.this);
-            transport.setWebView(mSubView);
+//            transport.setWebView(mSubView);
 //            } else {
 //                final Tab newTab = mWebViewController.openTab(null,
 //                        Tab.this, true, true);
@@ -1053,9 +1052,9 @@ public class WebViewTab {
             // switched to another tab while waiting for the download to start.
 //            webView.setDownloadListener(mDownloadListener);
 //            TabControl tc = mWebViewController.getTabControl();
-            if (tc != null && tc.getOnThumbnailUpdatedListener() != null) {
+//            if (tc != null && tc.getOnThumbnailUpdatedListener() != null) {
                 webView.setPictureListener(this);
-            }
+//            }
             if (restore && (mSavedState != null)) {
                 restoreUserAgent();
                 WebBackForwardList restoredState
@@ -1074,9 +1073,7 @@ public class WebViewTab {
      */
     void destroy() {
         if (webView != null) {
-            dismissSubWindow();
-            // save the WebView to call destroy() after detach it from the tab
-            WebView webView = WebViewTab.webView;
+            WebView webView = getWebView();
             setWebView(null);
             webView.destroy();
         }
@@ -1113,7 +1110,7 @@ public class WebViewTab {
         mInForeground = true;
         resume();
 //        Activity activity = mWebViewController.getActivity();
-        webView.setOnCreateContextMenuListener(((Activity) webView.getContentHeight()));
+        webView.setOnCreateContextMenuListener(((View.OnCreateContextMenuListener) webView.getContext()));
 //        if (mSubView != null) {
 //            mSubView.setOnCreateContextMenuListener(activity);
 //        }
@@ -1181,26 +1178,6 @@ public class WebViewTab {
     }
 
     /**
-     * Return the subwindow of this tab or null if there is no subwindow.
-     * @return The subwindow of this tab or null.
-     */
-    WebView getSubWebView() {
-        return mSubView;
-    }
-
-    void setSubWebView(WebView subView) {
-        mSubView = subView;
-    }
-
-    View getSubViewContainer() {
-        return mSubViewContainer;
-    }
-
-    void setSubViewContainer(View subViewContainer) {
-        mSubViewContainer = subViewContainer;
-    }
-
-    /**
      * @return The geolocation permissions prompt for this tab.
      */
 //    GeolocationPermissionsPrompt getGeolocationPermissionsPrompt() {
@@ -1248,16 +1225,16 @@ public class WebViewTab {
         mCloseOnBack = close;
     }
 
-    String getUrl() {
-        return UrlUtils.filteredUrl(mCurrentState.mUrl);
-    }
-
-    String getOriginalUrl() {
-        if (mCurrentState.mOriginalUrl == null) {
-            return getUrl();
-        }
-        return UrlUtils.filteredUrl(mCurrentState.mOriginalUrl);
-    }
+//    String getUrl() {
+//        return UrlUtils.filteredUrl(mCurrentState.mUrl);
+//    }
+//
+//    String getOriginalUrl() {
+//        if (mCurrentState.mOriginalUrl == null) {
+//            return getUrl();
+//        }
+//        return UrlUtils.filteredUrl(mCurrentState.mOriginalUrl);
+//    }
 
     /**
      * Get the title of this tab.
@@ -1355,9 +1332,6 @@ public class WebViewTab {
         }
         mSavedState.putBoolean(CLOSEFLAG, mCloseOnBack);
         // Remember the parent tab so the relationship can be restored.
-        if (mParent != null) {
-            mSavedState.putLong(PARENTTAB, mParent.mId);
-        }
         mSavedState.putBoolean(USERAGENT,
                 mSettings.hasDesktopUseragent(getWebView()));
         return mSavedState;
@@ -1382,11 +1356,6 @@ public class WebViewTab {
         boolean incognito = b.getBoolean(INCOGNITO);
         mCurrentState = new PageState(mContext, incognito, url, null);
         mCurrentState.mTitle = title;
-        synchronized (Tab.this) {
-            if (mCapture != null) {
-                DataController.getInstance(mContext).loadThumbnail(this);
-            }
-        }
     }
 
     private void restoreUserAgent() {
@@ -1399,25 +1368,8 @@ public class WebViewTab {
         }
     }
 
-    public void updateBookmarkedStatus() {
-        mDataController.queryBookmarkStatus(getUrl(), mIsBookmarkCallback);
-    }
-
-    private DataController.OnQueryUrlIsBookmark mIsBookmarkCallback
-            = new DataController.OnQueryUrlIsBookmark() {
-        @Override
-        public void onQueryUrlIsBookmark(String url, boolean isBookmark) {
-            if (mCurrentState.mUrl.equals(url)) {
-                mCurrentState.mIsBookmarkedSite = isBookmark;
-//                mWebViewController.bookmarkedStatusHasChanged(Tab.this);
-            }
-        }
-    };
-
     public Bitmap getScreenshot() {
-        synchronized (Tab.this) {
-            return mCapture;
-        }
+        return mCapture;
     }
 
     public boolean isSnapshot() {
@@ -1482,16 +1434,12 @@ public class WebViewTab {
         }
         Canvas c = new Canvas(mCapture);
         final int left = webView.getScrollX();
-        final int top = webView.getScrollY() + webView.getVisibleTitleHeight();
+        final int top = webView.getScrollY();// + webView.getVisibleTitleHeight();
         int state = c.save();
         c.translate(-left, -top);
         float scale = mCaptureWidth / (float) webView.getWidth();
         c.scale(scale, scale, left, top);
-        if (webView instanceof BrowserWebView) {
-            ((BrowserWebView)webView).drawContent(c);
-        } else {
-            webView.draw(c);
-        }
+        webView.draw(c);
         c.restoreToCount(state);
         // manually anti-alias the edges for the tilt
         c.drawRect(0, 0, 1, mCapture.getHeight(), sAlphaPaint);
@@ -1502,15 +1450,15 @@ public class WebViewTab {
                 mCapture.getHeight(), sAlphaPaint);
         c.setBitmap(null);
         mHandler.removeMessages(MSG_CAPTURE);
-        persistThumbnail();
+//        persistThumbnail();
 //        TabControl tc = mWebViewController.getTabControl();
-        if (tc != null) {
-            OnThumbnailUpdatedListener updateListener
-                    = tc.getOnThumbnailUpdatedListener();
-            if (updateListener != null) {
-                updateListener.onThumbnailUpdated(this);
-            }
-        }
+//        if (tc != null) {
+//            OnThumbnailUpdatedListener updateListener
+//                    = tc.getOnThumbnailUpdatedListener();
+//            if (updateListener != null) {
+//                updateListener.onThumbnailUpdated(this);
+//            }
+//        }
     }
 
     @Override
@@ -1592,7 +1540,7 @@ public class WebViewTab {
             builder.append(", title: ");
             builder.append(getTitle());
             builder.append(", url: ");
-            builder.append(getUrl());
+            builder.append(getWebView().getUrl());
         }
         return builder.toString();
     }
