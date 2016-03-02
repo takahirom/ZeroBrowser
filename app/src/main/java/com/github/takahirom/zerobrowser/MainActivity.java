@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         setSupportActionBar(binding.inMain.toolbar);
-        webViewTab = new WebViewTab(binding.inMain.inContent.webview);
+        webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
         webViewTab.init();
         webViewTab.loadHome();
 
