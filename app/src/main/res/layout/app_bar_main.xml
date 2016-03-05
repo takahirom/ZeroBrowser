@@ -35,6 +35,11 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
             android:src="@android:drawable/ic_dialog_email"/>
+        <FrameLayout
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></FrameLayout>
+
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
