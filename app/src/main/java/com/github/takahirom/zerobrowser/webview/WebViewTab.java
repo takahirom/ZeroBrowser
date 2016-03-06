@@ -64,6 +64,7 @@ public class WebViewTab implements WebView.PictureListener {
 
     public WebViewTab(WebView webView, Bundle state) {
         mContext = webView.getContext();
+        mSettings = BrowserSettings.getInstance();
         mCaptureWidth = mContext.getResources().getDimensionPixelSize(
                 R.dimen.tab_thumbnail_width);
         mCaptureHeight = mContext.getResources().getDimensionPixelSize(
