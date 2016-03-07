@@ -9,6 +9,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.webkit.WebView;
 
+import com.github.takahirom.zerobrowser.R;
+
 public class ZeroBrowserWebView extends WebView implements NestedScrollingChild {
     private int mLastY;
     private final int[] mScrollOffset = new int[2];
@@ -21,7 +23,7 @@ public class ZeroBrowserWebView extends WebView implements NestedScrollingChild 
     }
 
     public ZeroBrowserWebView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        this(context, attrs, android.R.attr.webViewStyle);
     }
 
     public ZeroBrowserWebView(Context context, AttributeSet attrs, int defStyleAttr) {
