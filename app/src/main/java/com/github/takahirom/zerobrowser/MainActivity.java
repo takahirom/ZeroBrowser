@@ -3,17 +3,18 @@ package com.github.takahirom.zerobrowser;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.takahirom.zerobrowser.databinding.ActivityMainBinding;
+import com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel;
 import com.github.takahirom.zerobrowser.webview.WebViewTab;
 
 public class MainActivity extends AppCompatActivity
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.inMain.setViewModel(new MainActivityViewModel());
         setSupportActionBar(binding.inMain.toolbar);
         webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
         webViewTab.init();

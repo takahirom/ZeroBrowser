@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel"/>
+    </data>
 
     <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -21,13 +25,13 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         </android.support.design.widget.AppBarLayout>
 
         <include
             android:id="@+id/in_content"
-            layout="@layout/content_main"/>
+            layout="@layout/content_main" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -35,22 +39,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email"/>
+            android:src="@android:drawable/ic_dialog_email" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="148dp"
-            android:orientation="horizontal"
-            app:layout_behavior="@string/bottom_sheet_behavior"
-            app:behavior_peekHeight="?actionBarSize"
-            app:behavior_hideable="true"
             android:background="@android:color/white"
-            >
+            android:orientation="horizontal"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="?actionBarSize"
+            app:layout_behavior="@string/bottom_sheet_behavior">
+
             <ImageButton
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp"/>
+                android:onClick="@{viewModel.onClickBack}"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
         </LinearLayout>
 
 
