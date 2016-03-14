@@ -27,11 +27,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.inMain.setViewModel(new MainActivityViewModel());
         setSupportActionBar(binding.inMain.toolbar);
         webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
         webViewTab.init();
         webViewTab.loadHome();
+        binding.inMain.setViewModel(new MainActivityViewModel(webViewTab));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
