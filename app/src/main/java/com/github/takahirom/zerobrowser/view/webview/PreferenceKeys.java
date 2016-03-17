@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.takahirom.zerobrowser.webview;
+package com.github.takahirom.zerobrowser.view.webview;
 
 public interface PreferenceKeys {
 

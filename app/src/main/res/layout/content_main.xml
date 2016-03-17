@@ -14,7 +14,7 @@
         tools:context="com.github.takahirom.zerobrowser.MainActivity"
         tools:showIn="@layout/app_bar_main">
 
-        <com.github.takahirom.zerobrowser.webview.ZeroBrowserWebView
+        <com.github.takahirom.zerobrowser.view.webview.ZeroBrowserWebView
             android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -1,4 +1,4 @@
-package com.github.takahirom.zerobrowser.webview;
+package com.github.takahirom.zerobrowser.view.webview;
 
 import android.os.HandlerThread;
 import android.os.Looper;

@@ -2,10 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
-            type="com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel"/>
+            type="com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel" />
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -33,31 +35,34 @@
             android:id="@+id/in_content"
             layout="@layout/content_main" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:src="@android:drawable/ic_dialog_email" />
-
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="148dp"
-            android:background="@android:color/white"
+            android:layout_height="?actionBarSize"
+            android:layout_gravity="bottom"
+            android:background="?attr/colorPrimary"
             android:orientation="horizontal"
             app:behavior_hideable="true"
             app:behavior_peekHeight="?actionBarSize"
-            app:layout_behavior="@string/bottom_sheet_behavior">
+            app:layout_behavior="com.github.takahirom.zerobrowser.view.behavior.BottomBarBehavior"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageButton
+            <ImageView
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{viewModel.onClickBack}"
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
-        </LinearLayout>
+        </android.support.v7.widget.Toolbar>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@android:drawable/ic_dialog_email"
+            app:layout_anchor="@id/toolbar_bottom_navigation"
+            app:layout_anchorGravity="top|right" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

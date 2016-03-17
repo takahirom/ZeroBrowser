@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.takahirom.zerobrowser.webview;
+package com.github.takahirom.zerobrowser.view.webview;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.StatFs;
-import android.preference.PreferenceActivity;
 import android.util.Log;
 import android.webkit.WebStorage;
 import android.widget.Toast;

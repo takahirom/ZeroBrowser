@@ -1,6 +1,5 @@
-package com.github.takahirom.zerobrowser.webview;
+package com.github.takahirom.zerobrowser.view.webview;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -22,14 +21,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.security.KeyChain;
-import android.security.KeyChainAliasCallback;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewStub;
-import android.webkit.ClientCertRequest;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
@@ -42,8 +37,6 @@ import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
-import android.webkit.WebHistoryItem;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -52,10 +45,8 @@ import android.widget.Toast;
 import com.github.takahirom.zerobrowser.R;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Vector;
 import java.util.regex.Pattern;
 
 public class WebViewTab implements WebView.PictureListener {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.takahirom.zerobrowser.webview;
+package com.github.takahirom.zerobrowser.view.webview;
 
 import android.app.ActivityManager;
 import android.content.Context;

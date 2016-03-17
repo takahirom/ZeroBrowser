@@ -2,7 +2,7 @@ package com.github.takahirom.zerobrowser.viewmodel;
 
 import android.view.View;
 
-import com.github.takahirom.zerobrowser.webview.WebViewTab;
+import com.github.takahirom.zerobrowser.view.webview.WebViewTab;
 
 /**
  * Created by takahirom on 16/03/12.
