@@ -2,20 +2,25 @@ package com.github.takahirom.zerobrowser.view.behavior;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
 
-public class ToolbarBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
+public class BottomFabBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
 
     private final int screenHeight;
     private int defaultDependencyTop = -1;
 
-    public ToolbarBehavior(Context context, AttributeSet attrs) {
+    public BottomFabBehavior(Context context, AttributeSet attrs) {
         super();
-        screenHeight = ((Activity) context).getWindow().getDecorView().getHeight();
+        Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenHeight = size.y;
     }
 
     @Override
@@ -25,7 +30,7 @@ public class ToolbarBehavior extends CoordinatorLayout.Behavior<FloatingActionBu
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton fab, View dependency) {
-        if (dependency.getBottom() > screenHeight) {
+        if (dependency.getTranslationY() >= dependency.getHeight() / 2) {
             fab.hide();
         } else {
             fab.show();
