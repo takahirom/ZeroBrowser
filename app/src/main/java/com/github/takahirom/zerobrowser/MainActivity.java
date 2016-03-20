@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
 
     private ActivityMainBinding binding;
     private WebViewTab webViewTab;
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,8 @@ public class MainActivity extends AppCompatActivity
         webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
         webViewTab.init();
         webViewTab.loadHome();
-        binding.inMain.setViewModel(new MainActivityViewModel(webViewTab));
+        viewModel = new MainActivityViewModel(webViewTab);
+        binding.inMain.setViewModel(viewModel);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (!viewModel.onBackPressed()) {
             super.onBackPressed();
         }
     }

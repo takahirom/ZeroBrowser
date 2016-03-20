@@ -16,4 +16,15 @@ public class MainActivityViewModel {
 
     public void onClickBack(View v) {
     }
+
+    /**
+     * @return isHandled
+     */
+    public boolean onBackPressed() {
+        if (webViewTab.canGoBack()) {
+            webViewTab.goBack();
+            return true;
+        }
+        return false;
+    }
 }
