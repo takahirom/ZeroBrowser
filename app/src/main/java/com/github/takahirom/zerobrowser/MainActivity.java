@@ -10,6 +10,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,12 +26,26 @@ public class MainActivity extends AppCompatActivity
     private ActivityMainBinding binding;
     private WebViewTab webViewTab;
     private MainActivityViewModel viewModel;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        setSupportActionBar(binding.inMain.toolbar);
+        final Toolbar searchToolbar = binding.inMain.toolbar;
+        searchToolbar.inflateMenu(R.menu.activity_main_search);
+        searchView = (SearchView) searchToolbar.getMenu().findItem(R.id.menu_search).getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
         webViewTab.init();
         webViewTab.loadHome();
