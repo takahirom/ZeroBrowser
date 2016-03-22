@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                return false;
+                webViewTab.loadUrl("http://google.com?q=" + s, null);
+                return true;
             }
             @Override
             public boolean onQueryTextChange(String s) {
