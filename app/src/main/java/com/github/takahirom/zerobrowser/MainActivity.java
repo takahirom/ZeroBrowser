@@ -32,13 +32,19 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
+        webViewTab.init();
+        webViewTab.loadHome();
+        viewModel = new MainActivityViewModel(webViewTab);
+        binding.inMain.setViewModel(viewModel);
+
         final Toolbar searchToolbar = binding.inMain.toolbar;
         searchToolbar.inflateMenu(R.menu.activity_main_search);
         searchView = (SearchView) searchToolbar.getMenu().findItem(R.id.menu_search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                webViewTab.loadUrl("http://google.com?q=" + s, null);
+                viewModel.onSubmitQuery(s);
                 return true;
             }
             @Override
@@ -46,12 +52,6 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-
-        webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
-        webViewTab.init();
-        webViewTab.loadHome();
-        viewModel = new MainActivityViewModel(webViewTab);
-        binding.inMain.setViewModel(viewModel);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

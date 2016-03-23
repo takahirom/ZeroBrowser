@@ -27,4 +27,8 @@ public class MainActivityViewModel {
         }
         return false;
     }
+
+    public void onSubmitQuery(String query) {
+        webViewTab.loadUrl("http://google.com?q=" + query, null);
+    }
 }
