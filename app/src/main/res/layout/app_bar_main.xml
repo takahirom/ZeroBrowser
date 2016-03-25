@@ -44,7 +44,7 @@
             android:orientation="horizontal"
             app:behavior_hideable="true"
             app:behavior_peekHeight="?actionBarSize"
-            app:layout_behavior="com.github.takahirom.zerobrowser.view.behavior.BottomBarBehavior"
+            app:layout_behavior="com.github.takahirom.zerobrowser.view.behavior.BottomNavigationBarBehavior"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageView
