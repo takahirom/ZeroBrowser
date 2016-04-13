@@ -2,6 +2,7 @@ package com.github.takahirom.zerobrowser;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -23,7 +24,8 @@ import com.github.takahirom.zerobrowser.view.webview.WebViewTab;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ActivityMainBinding binding;
+    @VisibleForTesting
+    protected ActivityMainBinding binding;
     private WebViewTab webViewTab;
     private MainActivityViewModel viewModel;
     private SearchView searchView;
