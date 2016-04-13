@@ -38,7 +38,6 @@ public class MainActivityTest {
         MockResponse response = new MockResponse().setBody("ABC");
 
         server.enqueue(response);
-        server.start();
 
         final ZeroBrowserWebView webView = mainActivity.getActivity().binding.inMain.inContent.webview;
 
