@@ -35,7 +35,7 @@ public class MainActivityTest {
 
     @Test
     public void webViewClientTest() throws InterruptedException, IOException {
-        MockResponse response = new MockResponse().setBody("ABC");
+        MockResponse response = new MockResponse().setBody("<html><body><H1>Hello World!!</H1></body></html>");
 
         server.enqueue(response);
 
@@ -61,5 +61,6 @@ public class MainActivityTest {
         if (!countDownLatch.await(3, TimeUnit.SECONDS)) {
             fail("not loaded");
         }
+        Thread.sleep(1000);
     }
 }
