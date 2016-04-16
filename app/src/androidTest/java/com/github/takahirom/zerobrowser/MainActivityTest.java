@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 public class MainActivityTest {
     @Rule public final MockWebServer server = new MockWebServer();
     @Rule
-    public ActivityTestRule<MainActivity> mainActivity = new ActivityTestRule<MainActivity>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mainActivityRule = new ActivityTestRule<MainActivity>(MainActivity.class);
 
     @Test
     public void webViewClientTest() throws InterruptedException, IOException {
@@ -39,7 +39,7 @@ public class MainActivityTest {
 
         server.enqueue(response);
 
-        final ZeroBrowserWebView webView = mainActivity.getActivity().binding.inMain.inContent.webview;
+        final ZeroBrowserWebView webView = mainActivityRule.getActivity().binding.inMain.inContent.webview;
 
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
@@ -63,4 +63,6 @@ public class MainActivityTest {
         }
         Thread.sleep(1000);
     }
+
+
 }
