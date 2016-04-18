@@ -15,6 +15,7 @@ public class MainActivityViewModel {
     }
 
     public void onClickBack(View v) {
+        webViewTab.goBack();
     }
 
     /**
