@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:tint="@android:color/white"
                 android:onClick="@{viewModel.onClickBack}"
-                app:srcCompat="@drawable/ic_turned_in_black_24dp    " />
+                app:srcCompat="@drawable/ic_turned_in_black_24dp" />
 
         </android.support.v7.widget.Toolbar>
 
