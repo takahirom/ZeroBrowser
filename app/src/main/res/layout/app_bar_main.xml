@@ -59,14 +59,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tint="@android:color/white"
-                android:onClick="@{viewModel.onClickBack}"
+                android:onClick="@{viewModel.onClickForward}"
                 app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
             <ImageView
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tint="@android:color/white"
-                android:onClick="@{viewModel.onClickBack}"
+                android:onClick="@{viewModel.onClickBookmark}"
                 app:srcCompat="@drawable/ic_turned_in_black_24dp" />
 
         </android.support.v7.widget.Toolbar>

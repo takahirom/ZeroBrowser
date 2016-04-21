@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity
 
     @VisibleForTesting
     protected ActivityMainBinding binding;
-    private WebViewTab webViewTab;
+    @VisibleForTesting
+    protected WebViewTab webViewTab;
     private MainActivityViewModel viewModel;
     private SearchView searchView;
 
