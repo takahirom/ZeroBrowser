@@ -13,13 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.github.takahirom.zerobrowser.databinding.ActivityMainBinding;
 import com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel;
 import com.github.takahirom.zerobrowser.view.webview.WebViewTab;
+
+import java.util.regex.Matcher;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,10 +40,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         webViewTab = new WebViewTab(binding.inMain.inContent.webview, savedInstanceState);
+        viewModel = new MainActivityViewModel(this, webViewTab);
+        webViewTab.setViewModel(viewModel);
+        binding.inMain.setViewModel(viewModel);
+
         webViewTab.init();
         webViewTab.loadHome();
-        viewModel = new MainActivityViewModel(webViewTab);
-        binding.inMain.setViewModel(viewModel);
 
         final Toolbar searchToolbar = binding.inMain.toolbar;
         searchToolbar.inflateMenu(R.menu.activity_main_search);
@@ -132,5 +138,9 @@ public class MainActivity extends AppCompatActivity
 
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setSearchText(String url) {
+        searchView.setQuery(url, false);
     }
 }

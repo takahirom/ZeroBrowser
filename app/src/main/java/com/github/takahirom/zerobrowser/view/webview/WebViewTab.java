@@ -43,6 +43,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.github.takahirom.zerobrowser.R;
+import com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel;
 
 import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
@@ -52,6 +53,7 @@ import java.util.regex.Pattern;
 public class WebViewTab implements WebView.PictureListener {
 
     private WebView webView;
+    private MainActivityViewModel viewModel;
 
     public WebViewTab(WebView webView, Bundle state) {
         mContext = webView.getContext();
@@ -128,6 +130,10 @@ public class WebViewTab implements WebView.PictureListener {
     static {
         sAlphaPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         sAlphaPaint.setColor(Color.TRANSPARENT);
+    }
+
+    public void setViewModel(MainActivityViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     public enum SecurityState {
@@ -354,6 +360,7 @@ public class WebViewTab implements WebView.PictureListener {
             }
             syncCurrentState(view, url);
 //            mWebViewController.onPageFinished(Tab.this);
+            viewModel.onPageFinished(view, url);
         }
 
         // return true if want to hijack the url to let another app to handle it

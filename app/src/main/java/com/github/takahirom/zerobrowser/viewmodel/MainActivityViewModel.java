@@ -1,8 +1,11 @@
 package com.github.takahirom.zerobrowser.viewmodel;
 
+import android.util.Patterns;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.github.takahirom.zerobrowser.MainActivity;
 import com.github.takahirom.zerobrowser.view.webview.WebViewTab;
 
 /**
@@ -10,9 +13,11 @@ import com.github.takahirom.zerobrowser.view.webview.WebViewTab;
  */
 public class MainActivityViewModel {
     private final WebViewTab webViewTab;
+    private final MainActivity activity;
 
-    public MainActivityViewModel(WebViewTab webViewTab) {
+    public MainActivityViewModel(MainActivity activity, WebViewTab webViewTab) {
         this.webViewTab = webViewTab;
+        this.activity = activity;
     }
 
     public void onClickBack(View v) {
@@ -39,6 +44,14 @@ public class MainActivityViewModel {
     }
 
     public void onSubmitQuery(String query) {
-        webViewTab.loadUrl("http://google.com?q=" + query, null);
+        if (Patterns.WEB_URL.matcher(query).matches()) {
+            webViewTab.loadUrl(query,null);
+            return;
+        }
+        webViewTab.loadUrl("http://google.com/search?q=" + query, null);
+    }
+
+    public void onPageFinished(WebView view, String url) {
+        activity.setSearchText(url);
     }
 }
