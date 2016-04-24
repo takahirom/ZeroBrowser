@@ -1,5 +1,6 @@
 package com.github.takahirom.zerobrowser;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
@@ -17,6 +18,7 @@ import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.github.takahirom.zerobrowser.databinding.ActivityMainBinding;
@@ -50,10 +52,12 @@ public class MainActivity extends AppCompatActivity
         final Toolbar searchToolbar = binding.inMain.toolbar;
         searchToolbar.inflateMenu(R.menu.activity_main_search);
         searchView = (SearchView) searchToolbar.getMenu().findItem(R.id.menu_search).getActionView();
+        searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 viewModel.onSubmitQuery(s);
+                searchView.clearFocus();
                 return true;
             }
             @Override
