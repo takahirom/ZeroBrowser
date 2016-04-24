@@ -12,15 +12,10 @@ import android.view.View;
 
 public class BottomFabBehavior extends CoordinatorLayout.Behavior<FloatingActionButton> {
 
-    private final int screenHeight;
-    private int defaultDependencyTop = -1;
 
     public BottomFabBehavior(Context context, AttributeSet attrs) {
         super();
-        Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        screenHeight = size.y;
+
     }
 
     @Override

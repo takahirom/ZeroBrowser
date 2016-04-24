@@ -759,6 +759,7 @@ public class WebViewTab implements WebView.PictureListener {
             if (mUpdateThumbnail && newProgress == 100) {
                 mUpdateThumbnail = false;
             }
+            viewModel.onProgressChanged(newProgress);
         }
 
         @Override

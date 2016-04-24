@@ -54,4 +54,8 @@ public class MainActivityViewModel {
     public void onPageFinished(WebView view, String url) {
         activity.setSearchText(url);
     }
+
+    public void onProgressChanged(int newProgress) {
+        activity.setWebProgress(newProgress);
+    }
 }

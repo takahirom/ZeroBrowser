@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.takahirom.zerobrowser.databinding.ActivityMainBinding;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     protected WebViewTab webViewTab;
     private MainActivityViewModel viewModel;
     private SearchView searchView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity
                     AppCompatDelegate.MODE_NIGHT_YES);
             recreate();
         }
+        progressBar = (ProgressBar) findViewById(R.id.progressbar_webview);
     }
 
     @Override
@@ -146,5 +149,9 @@ public class MainActivity extends AppCompatActivity
 
     public void setSearchText(String url) {
         searchView.setQuery(url, false);
+    }
+
+    public void setWebProgress(int webProgress) {
+        progressBar.setProgress(webProgress);
     }
 }

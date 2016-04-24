@@ -27,7 +27,15 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
+                <ProgressBar
+                    android:id="@+id/progressbar_webview"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_gravity="bottom" />
+            </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
@@ -51,22 +59,24 @@
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tint="@android:color/white"
                 android:onClick="@{viewModel.onClickBack}"
+                android:tint="@android:color/white"
                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
             <ImageView
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tint="@android:color/white"
                 android:onClick="@{viewModel.onClickForward}"
+                android:tint="@android:color/white"
                 app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+
             <ImageView
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tint="@android:color/white"
                 android:onClick="@{viewModel.onClickBookmark}"
+                android:tint="@android:color/white"
                 app:srcCompat="@drawable/ic_turned_in_black_24dp" />
 
         </android.support.v7.widget.Toolbar>
@@ -78,8 +88,8 @@
             android:layout_margin="@dimen/fab_margin"
             android:src="@android:drawable/ic_dialog_email"
             app:layout_anchor="@id/toolbar_bottom_navigation"
-            app:layout_behavior="com.github.takahirom.zerobrowser.view.behavior.BottomFabBehavior"
-            app:layout_anchorGravity="top|right" />
+            app:layout_anchorGravity="top|right"
+            app:layout_behavior="com.github.takahirom.zerobrowser.view.behavior.BottomFabBehavior" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>
