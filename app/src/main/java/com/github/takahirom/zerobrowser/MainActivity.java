@@ -1,6 +1,5 @@
 package com.github.takahirom.zerobrowser;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
@@ -14,19 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.github.takahirom.zerobrowser.databinding.ActivityMainBinding;
-import com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel;
 import com.github.takahirom.zerobrowser.view.webview.WebViewTab;
-
-import java.util.regex.Matcher;
+import com.github.takahirom.zerobrowser.viewmodel.MainActivityViewModel;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -62,6 +55,7 @@ public class MainActivity extends AppCompatActivity
                 searchView.clearFocus();
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 return false;
@@ -69,13 +63,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
