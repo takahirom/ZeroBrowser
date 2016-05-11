@@ -259,6 +259,7 @@ public class WebViewTab implements WebView.PictureListener {
         public final int mTitle;
         public final String mDescription;
         public final int mError;
+
         ErrorDialog(int title, String desc, int error) {
             mTitle = title;
             mDescription = desc;
@@ -440,17 +441,17 @@ public class WebViewTab implements WebView.PictureListener {
             new AlertDialog.Builder(mContext).setTitle(
                     R.string.browserFrameFormResubmitLabel).setMessage(
                     R.string.browserFrameFormResubmitMessage)
-                                             .setPositiveButton(R.string.ok,
-                                                     new DialogInterface.OnClickListener() {
-                                                         public void onClick(DialogInterface dialog,
-                                                                             int which) {
-                                                             if (mResend != null) {
-                                                                 mResend.sendToTarget();
-                                                                 mResend = null;
-                                                                 mDontResend = null;
-                                                             }
-                                                         }
-                                                     }).setNegativeButton(R.string.cancel,
+                    .setPositiveButton(R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    if (mResend != null) {
+                                        mResend.sendToTarget();
+                                        mResend = null;
+                                        mDontResend = null;
+                                    }
+                                }
+                            }).setNegativeButton(R.string.cancel,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int which) {
@@ -826,9 +827,9 @@ public class WebViewTab implements WebView.PictureListener {
                                             String databaseIdentifier, long currentQuota, long estimatedSize,
                                             long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater) {
             mSettings.getWebStorageSizeManager()
-                     .onExceededDatabaseQuota(url, databaseIdentifier,
-                             currentQuota, estimatedSize, totalUsedQuota,
-                             quotaUpdater);
+                    .onExceededDatabaseQuota(url, databaseIdentifier,
+                            currentQuota, estimatedSize, totalUsedQuota,
+                            quotaUpdater);
         }
 
         /**
@@ -845,8 +846,8 @@ public class WebViewTab implements WebView.PictureListener {
         public void onReachedMaxAppCacheSize(long spaceNeeded,
                                              long totalUsedQuota, WebStorage.QuotaUpdater quotaUpdater) {
             mSettings.getWebStorageSizeManager()
-                     .onReachedMaxAppCacheSize(spaceNeeded, totalUsedQuota,
-                             quotaUpdater);
+                    .onReachedMaxAppCacheSize(spaceNeeded, totalUsedQuota,
+                            quotaUpdater);
         }
 
         /**
@@ -900,7 +901,7 @@ public class WebViewTab implements WebView.PictureListener {
             if (isPrivateBrowsingEnabled()) return true;
 
             String message = "Console: " + consoleMessage.message() + " "
-                    + consoleMessage.sourceId() +  ":"
+                    + consoleMessage.sourceId() + ":"
                     + consoleMessage.lineNumber();
 
             switch (consoleMessage.messageLevel()) {
@@ -1054,7 +1055,7 @@ public class WebViewTab implements WebView.PictureListener {
 //            webView.setDownloadListener(mDownloadListener);
 //            TabControl tc = mWebViewController.getTabControl();
 //            if (tc != null && tc.getOnThumbnailUpdatedListener() != null) {
-                webView.setPictureListener(this);
+            webView.setPictureListener(this);
 //            }
             if (restore && (mSavedState != null)) {
                 restoreUserAgent();
@@ -1116,7 +1117,7 @@ public class WebViewTab implements WebView.PictureListener {
 //            mSubView.setOnCreateContextMenuListener(activity);
 //        }
         // Show the pending error dialog if the queue is not empty
-        if (mQueuedErrors != null && mQueuedErrors.size() >  0) {
+        if (mQueuedErrors != null && mQueuedErrors.size() > 0) {
             showError(mQueuedErrors.getFirst());
         }
 //        mWebViewController.bookmarkedStatusHasChanged(this);
@@ -1142,6 +1143,7 @@ public class WebViewTab implements WebView.PictureListener {
     /**
      * Return the top window of this tab; either the subwindow if it is not
      * null or the main window.
+     *
      * @return The top window of this tab.
      */
     WebView getTopWindow() {
@@ -1155,6 +1157,7 @@ public class WebViewTab implements WebView.PictureListener {
      * Return the main window of this tab. Note: if a tab is freed in the
      * background, this can return null. It is only guaranteed to be
      * non-null for the current tab.
+     *
      * @return The main WebView of this tab.
      */
     WebView getWebView() {
@@ -1172,6 +1175,7 @@ public class WebViewTab implements WebView.PictureListener {
     /**
      * Return whether private browsing is enabled for the main window of
      * this tab.
+     *
      * @return True if private browsing is enabled.
      */
     boolean isPrivateBrowsingEnabled() {
@@ -1212,6 +1216,7 @@ public class WebViewTab implements WebView.PictureListener {
 
     /**
      * Set the application id string
+     *
      * @param id
      */
     void setAppId(String id) {
@@ -1297,7 +1302,7 @@ public class WebViewTab implements WebView.PictureListener {
 
     /**
      * @return TRUE if onPageStarted is called while onPageFinished is not
-     *         called yet.
+     * called yet.
      */
     boolean inPageLoad() {
         return mInPageLoad;

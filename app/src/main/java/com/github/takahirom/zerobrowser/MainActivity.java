@@ -1,6 +1,7 @@
 package com.github.takahirom.zerobrowser;
 
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
@@ -42,8 +43,13 @@ public class MainActivity extends AppCompatActivity
         binding.inMain.setViewModel(viewModel);
 
         webViewTab.init();
-        webViewTab.loadHome();
 
+        final Uri data = getIntent().getData();
+        if (data != null && !data.toString().isEmpty()) {
+            webViewTab.loadUrl(data.toString(), null);
+        } else {
+            webViewTab.loadHome();
+        }
         final Toolbar searchToolbar = binding.inMain.toolbar;
         searchToolbar.inflateMenu(R.menu.activity_main_search);
         searchView = (SearchView) searchToolbar.getMenu().findItem(R.id.menu_search).getActionView();
