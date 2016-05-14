@@ -1,6 +1,6 @@
 test:
   override:
-    - echo y | android update sdk --no-ui --all --filter "android-23,build-tools-23.0.3"
+    - echo y | android update sdk --no-ui --all --filter "android-23,build-tools-23.0.2"
     # start the emulator
     - emulator -avd circleci-android22 -no-audio -no-window:
         background: true
