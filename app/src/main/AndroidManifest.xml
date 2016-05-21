@@ -67,6 +67,12 @@
                 <category android:name="android.intent.category.APP_BROWSER" />
             </intent-filter>
         </activity>
+        <service android:name=".ZeroCustomTabsService"
+            >
+            <intent-filter>
+                <action android:name="android.support.customtabs.action.CustomTabsService"></action>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
