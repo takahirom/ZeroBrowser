@@ -1,5 +1,5 @@
 /*
- * Copyright [2016] [takahirom]
+ * Copyright 2016 takahirom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-/**
- * Created by takahirom on 2016/05/21.
- */
 
 public class ZeroCustomTabsService extends CustomTabsService {
     @Override

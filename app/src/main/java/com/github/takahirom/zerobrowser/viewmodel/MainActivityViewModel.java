@@ -1,5 +1,5 @@
 /*
- * Copyright [2016] [takahirom]
+ * Copyright 2016 takahirom
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,6 @@ import android.widget.Toast;
 import com.github.takahirom.zerobrowser.MainActivity;
 import com.github.takahirom.zerobrowser.view.webview.WebViewTab;
 
-/**
- * Created by takahirom on 16/03/12.
- */
 public class MainActivityViewModel {
     private final WebViewTab webViewTab;
     private final MainActivity activity;
