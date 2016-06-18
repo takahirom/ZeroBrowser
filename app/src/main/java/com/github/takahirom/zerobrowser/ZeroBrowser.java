@@ -17,11 +17,15 @@
 package com.github.takahirom.zerobrowser;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 import android.webkit.CookieSyncManager;
 
 import com.github.takahirom.zerobrowser.view.webview.BrowserSettings;
 
 public class ZeroBrowser extends Application{
+    static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+    }
     @Override
     public void onCreate() {
         super.onCreate();
